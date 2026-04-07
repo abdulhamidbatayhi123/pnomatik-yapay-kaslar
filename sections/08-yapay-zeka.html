@@ -1,0 +1,141 @@
+<!-- ===== SECTION SEPARATOR ===== -->
+<div class="slide section-separator">
+    <span class="section-icon">🧠</span>
+    <h1>Yapay Zekâ & Gelecek</h1>
+    <p class="section-subtitle">RL, PINN, PIKAN ile PAM kontrolü</p>
+    <p class="section-description">Geleneksel kontrol yöntemlerinin yetersiz kaldığı yerde yapay zekânın devreye girişi ve gelecek araştırma yönleri.</p>
+</div>
+
+<!-- ===== SLIDE: AI APPROACHES ===== -->
+<div class="slide">
+    <h1>YZ ile PAM Kontrolü</h1>
+    <p class="slide-subtitle">Üç yapay zekâ yaklaşımı</p>
+    <div class="content">
+        <div class="three-col">
+            <div class="ai-card">
+                <span class="ai-badge">Pekiştirmeli Öğrenme</span>
+                <span class="card-icon" style="font-size: 2em;">🎮</span>
+                <h3>RL (Reinforcement Learning)</h3>
+                <p><strong>Problem:</strong> Kauçuk zamanla bozulur → klasik kontrolör eski parametrelerle çalışmaya devam eder → başarısız olur.</p>
+                <div class="highlight-box" style="margin-top: 8px; font-size: 0.9em;">
+                    <p><strong>Çözüm:</strong> RL ajanı, ödül sinyali ile deneme-yanılma yoluyla öğrenir. Kas eskidikçe politikasını <em>gerçek zamanlı</em> günceller.</p>
+                </div>
+                <p style="font-size: 0.8em; margin-top: 8px;"><span class="tag tag-cyan">PPO</span> <span class="tag tag-purple">SAC</span> <span class="tag tag-gold">Adaptif</span></p>
+            </div>
+            <div class="ai-card">
+                <span class="ai-badge">Fizik-Bilgili Ağ</span>
+                <span class="card-icon" style="font-size: 2em;">🔬</span>
+                <h3>PINN</h3>
+                <p><strong>Problem:</strong> Saf veri-güdümlü YSA "kara kutu"dur → güvenlik denetçileri reddeder + çok veri ister.</p>
+                <div class="highlight-box" style="margin-top: 8px; font-size: 0.9em;">
+                    <p><strong>Çözüm:</strong> Fizik kurallarını (ideal gaz, örgü kısıtı, 54.7°) kayıp fonksiyonuna göm → YSA yalnızca histerezis ve sürtünmeyi öğrensin.</p>
+                </div>
+                <p style="font-size: 0.8em; margin-top: 8px;"><span class="tag tag-cyan">L = L<sub>data</sub> + λL<sub>physics</sub></span></p>
+            </div>
+            <div class="ai-card">
+                <span class="ai-badge">En Yeni Teknoloji</span>
+                <span class="card-icon" style="font-size: 2em;">🌟</span>
+                <h3>PIKAN</h3>
+                <p><strong>Problem:</strong> PINN bile derin MLP gerektirebilir → lokal minimumlara takılır.</p>
+                <div class="highlight-box" style="margin-top: 8px; font-size: 0.9em;">
+                    <p><strong>Çözüm:</strong> KAN mimarisinde sabit aktivasyon yerine <em>öğrenilebilir spline fonksiyonlar</em> → daha az parametre ile daha doğru histerezis modelleme.</p>
+                </div>
+                <p style="font-size: 0.8em; margin-top: 8px;"><span class="tag tag-purple">KAN</span> <span class="tag tag-gold">Spline</span> <span class="tag tag-green">Yorumlanabilir</span></p>
+            </div>
+        </div>
+    </div>
+    <div class="slide-number"></div>
+</div>
+
+<!-- ===== SLIDE: HYBRID CONTROL ===== -->
+<div class="slide">
+    <h1>Hibrit Kontrol — Geleceğin Mimarisi</h1>
+    <p class="slide-subtitle">Klasik kontrol + YZ = Ticari uygulanabilirlik</p>
+    <div class="content">
+        <div class="flow-diagram">
+            <div class="flow-step">
+                <span class="flow-icon">📐</span>
+                <h4>Klasik Kontrolör</h4>
+                <p>Feedback Linearization</p>
+            </div>
+            <span class="flow-arrow">+</span>
+            <div class="flow-step" style="border-color: rgba(124, 58, 237, 0.3);">
+                <span class="flow-icon">🧠</span>
+                <h4>PINN / PIKAN</h4>
+                <p>Histerezis Tahmincisi</p>
+            </div>
+            <span class="flow-arrow">=</span>
+            <div class="flow-step" style="border-color: rgba(0, 180, 216, 0.4);">
+                <span class="flow-icon">🎯</span>
+                <h4>Hibrit Kontrolör</h4>
+                <p>Hassas + Dayanıklı</p>
+            </div>
+        </div>
+
+        <div class="two-col" style="margin-top: 20px;">
+            <div>
+                <h3>Nasıl Çalışır?</h3>
+                <p>Klasik matematiksel kontrolör ana hareketi yönetir. PINN/PIKAN her milisaniyede sürtünme ve doğrusal olmayan direnci hesaplar ve bu değeri klasik kontrolöre besler.</p>
+                
+                <div class="highlight-box" style="margin-top: 12px;">
+                    <p>🎯 Sonuç: Sistem, PAM'i sanki <em>mükemmel doğrusal bir elektrik motoru</em> kontrol ediyormuş gibi davranır.</p>
+                </div>
+            </div>
+            <div>
+                <h3>Neden Önemli?</h3>
+                <ul class="icon-list" style="padding: 0;">
+                    <li><span class="li-icon">🔹</span> Endüstri tamamen klasik kontrolü terk etmek istemiyor</li>
+                    <li><span class="li-icon">🔹</span> Saf YZ → güvenlik sertifikası zorluğu</li>
+                    <li><span class="li-icon">🔹</span> Hibrit yaklaşım = <em>en az risk, en çok fayda</em></li>
+                    <li><span class="li-icon">🔹</span> Yumuşak robotiğin ticari olarak uygulanabilir hâle gelmesinin anahtarı</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="slide-number"></div>
+</div>
+
+<!-- ===== SLIDE: OPEN QUESTIONS ===== -->
+<div class="slide">
+    <h1>Açık Araştırma Soruları</h1>
+    <p class="slide-subtitle">Gelecek araştırma yönleri ve fırsatlar</p>
+    <div class="content">
+        <div class="two-col">
+            <div>
+                <div class="glass-card" style="margin-bottom: 12px;">
+                    <span class="card-icon">🧪</span>
+                    <h3>Malzeme Dayanıklılığı</h3>
+                    <p>Uzun vadeli yorulma, membran ömrünü artıracak yeni malzemeler. Self-healing polimerler.</p>
+                </div>
+                <div class="glass-card" style="margin-bottom: 12px;">
+                    <span class="card-icon">🔋</span>
+                    <h3>Tethersız Çalışma</h3>
+                    <p>Taşınabilir kompresör alternatifleri. Fototermal aktüasyon, düşük kaynama noktalı sıvılar.</p>
+                </div>
+                <div class="glass-card">
+                    <span class="card-icon">🎛️</span>
+                    <h3>Hassas Kuvvet Kontrolü</h3>
+                    <p>Histerezisi gerçek zamanlı telafi eden dayanıklı kontrol mimarileri.</p>
+                </div>
+            </div>
+            <div>
+                <div class="glass-card" style="margin-bottom: 12px;">
+                    <span class="card-icon">🔄</span>
+                    <h3>Çok Fonksiyonlu Entegrasyon</h3>
+                    <p>Hem aktuatör hem sensör hem hesaplama birimi olarak çalışan PAM sistemleri.</p>
+                </div>
+                <div class="glass-card" style="margin-bottom: 12px;">
+                    <span class="card-icon">📏</span>
+                    <h3>Ölçeklendirme</h3>
+                    <p>Mikro PAM üretilebilirliği ve büyük ölçekli endüstriyel PAM dayanıklılığı.</p>
+                </div>
+                <div class="glass-card">
+                    <span class="card-icon">🤖</span>
+                    <h3>YZ-Güdümlü Tasarım</h3>
+                    <p>Evrimsel algoritmalar + ML ile PAM geometri optimizasyonu ve tensegrity topoloji keşfi.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-number"></div>
+</div>

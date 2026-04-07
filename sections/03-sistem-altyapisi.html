@@ -1,0 +1,119 @@
+<!-- ===== SECTION SEPARATOR ===== -->
+<div class="slide section-separator">
+    <span class="section-icon">🛠️</span>
+    <h1>Sistem Altyapısı</h1>
+    <p class="section-subtitle">PAM'i çalıştıran altyapı bileşenleri</p>
+    <p class="section-description">Kompresörden valf'a, tank'tan kas'a: basınçlı havanın yolculuğu ve her bileşenin kritik rolü.</p>
+</div>
+
+<!-- ===== SLIDE: SYSTEM FLOW ANIMATION ===== -->
+<div class="slide">
+    <h1>🎮 Pnömatik Sistem Akış Diyagramı</h1>
+    <p class="slide-subtitle">Havanın kompresörden kasa ulaşma yolculuğu</p>
+    <div class="content">
+        <div class="interactive-container" style="flex-direction: column; align-items: stretch;">
+            <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+                <div class="slider-group" style="width: 50%; max-width: 400px; z-index: 100;">
+                    <label>Valf Açıklığı:</label>
+                    <input type="range" id="valveSlider" min="0" max="100" step="1" value="0">
+                    <span class="slider-value" id="valveVal">%0 (Kapalı)</span>
+                </div>
+            </div>
+            <canvas id="systemFlowCanvas" width="800" height="200" style="width: 100%; max-width: 800px; height: auto;"></canvas>
+        </div>
+
+        <div class="four-col" style="margin-top: 16px;">
+            <div class="glass-card" style="text-align: center; padding: 16px;">
+                <span class="card-icon" style="font-size: 1.8em;">⚙️</span>
+                <h4>Kompresör</h4>
+                <p style="font-size: 0.85em; margin: 0;">Atmosfer havasını çeker, sıkıştırır ve yüksek basınçlı hava üretir. Sistemin "motoru".</p>
+            </div>
+            <div class="glass-card" style="text-align: center; padding: 16px;">
+                <span class="card-icon" style="font-size: 1.8em;">🛢️</span>
+                <h4>Tank (Rezervuar)</h4>
+                <p style="font-size: 0.85em; margin: 0;">Basınçlı havayı depolar. Pulsasyonları yumuşatır, anlık basınç düşüşlerini önler.</p>
+            </div>
+            <div class="glass-card" style="text-align: center; padding: 16px;">
+                <span class="card-icon" style="font-size: 1.8em;">🔧</span>
+                <h4>Orantısal Valf</h4>
+                <p style="font-size: 0.85em; margin: 0;">%0–100 arası hassas açılma. Elektrik sinyaline göre hava debisini ayarlar.</p>
+            </div>
+            <div class="glass-card" style="text-align: center; padding: 16px;">
+                <span class="card-icon" style="font-size: 1.8em;">💪</span>
+                <h4>PAM</h4>
+                <p style="font-size: 0.85em; margin: 0;">Kontrollü basınçlı hava ile kasılır, mekanik iş üretir.</p>
+            </div>
+        </div>
+    </div>
+    <div class="slide-number"></div>
+</div>
+
+<!-- ===== SLIDE: COMPONENT DETAILS ===== -->
+<div class="slide">
+    <h1>Bileşen Detayları</h1>
+    <p class="slide-subtitle">Her bileşenin mühendislik ve maliyet boyutu</p>
+    <div class="content">
+        <div class="two-col">
+            <div>
+                <h3>⚙️ Kompresör & Tank</h3>
+                <ul class="icon-list" style="padding: 0;">
+                    <li><span class="li-icon">🔸</span> <strong>Enerji kaybı:</strong> Sıkıştırma sürecinde enerjinin büyük kısmı ısıya dönüşür</li>
+                    <li><span class="li-icon">🔸</span> <strong>Gürültü:</strong> Endüstriyel kompresörler 70–90 dB gürültü üretir</li>
+                    <li><span class="li-icon">🔸</span> <strong>Tank boyutu:</strong> Basınç derecesi ve tepki süresi arasındaki denge</li>
+                    <li><span class="li-icon">🔸</span> <strong>Kaçak riski:</strong> Pnömatik sistemler zamanla mikro-kaçaklar geliştirir</li>
+                </ul>
+
+                <div class="highlight-box warning" style="margin-top: 12px;">
+                    <p>⚡ Sıkıştırılmış hava, bir fabrikadaki <strong>en pahalı enerji kaynağı</strong> olarak kabul edilir.</p>
+                </div>
+            </div>
+            <div>
+                <h3>🔧 Orantısal Valfler</h3>
+                <ul class="icon-list" style="padding: 0;">
+                    <li><span class="li-icon">🔹</span> <strong>Fark:</strong> Açık/kapalı valf yerine sürekli ayarlanabilir</li>
+                    <li><span class="li-icon">🔹</span> <strong>Kontrol sinyali:</strong> 0–10V veya 4–20mA elektrik sinyali</li>
+                    <li><span class="li-icon">🔹</span> <strong>Yanıt süresi:</strong> 5–50 ms (elektrik motorlarına kıyasla yavaş)</li>
+                    <li><span class="li-icon">🔹</span> <strong>Maliyet:</strong> Teknik karmaşıklık nedeniyle pahalı bileşen</li>
+                </ul>
+
+                <div class="highlight-box" style="margin-top: 12px;">
+                    <p>🎯 Hassas PAM kontrolü için <strong>orantısal valf kalitesi kritiktir</strong>. Kontrol matematiğinin doğruluğu, valfin tepki hassasiyetine bağlıdır.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-number"></div>
+</div>
+
+<!-- ===== SLIDE: BOTTLENECK ===== -->
+<div class="slide">
+    <h1>Hava Kaynağı — Aşil Topuğu</h1>
+    <p class="slide-subtitle">PAM'lerin yaygınlaşmasını engelleyen en büyük faktör</p>
+    <div class="content">
+        <div class="three-col">
+            <div class="glass-card" style="text-align: center;">
+                <span class="card-icon">🔋</span>
+                <h3>Elektrik Motoru</h3>
+                <p><span class="tag tag-green">Sadece pil + kablo</span></p>
+                <p style="font-size: 0.9em;">Hafif, kompakt, anında tepki. Güç kaynağı basit ve taşınabilir.</p>
+            </div>
+            <div class="glass-card" style="text-align: center; border-color: rgba(239, 68, 68, 0.2);">
+                <span class="card-icon">💨</span>
+                <h3>PAM Sistemi</h3>
+                <p><span class="tag tag-red">Kompresör + Tank + Hortum + Valf</span></p>
+                <p style="font-size: 0.9em;">Ağır, gürültülü, enerji verimsiz. Tethersiz çalışma büyük zorluk.</p>
+            </div>
+            <div class="glass-card" style="text-align: center;">
+                <span class="card-icon">💧</span>
+                <h3>Hidrolik</h3>
+                <p><span class="tag tag-gold">Pompa + Sıvı + Hortum</span></p>
+                <p style="font-size: 0.9em;">Yüksek kuvvet ama sızıntı riski, ağır ve bakım yoğun.</p>
+            </div>
+        </div>
+
+        <div class="highlight-box danger" style="margin-top: 16px;">
+            <p>🔑 <strong>Temel Mesaj:</strong> PAM ucuz ve güvenlidir, ama onu çalıştıran altyapı pahalı ve hantaldır. Elektrik motorları sadece pil + kablo ister. PAM ise kompresör + tank + valf + hortum gerektirir.</p>
+        </div>
+    </div>
+    <div class="slide-number"></div>
+</div>

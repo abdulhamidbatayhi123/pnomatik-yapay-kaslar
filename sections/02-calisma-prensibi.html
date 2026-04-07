@@ -1,0 +1,217 @@
+<!-- ===== SECTION SEPARATOR ===== -->
+<div class="slide section-separator">
+    <span class="section-icon">⚙️</span>
+    <h1>Çalışma Prensibi</h1>
+    <p class="section-subtitle">PAM nasıl çalışır?</p>
+    <p class="section-description">Radyal genişlemeden eksenel kısalmaya: pnömatik yapay kasın fiziği, geometrisi ve matematiksel modeli.</p>
+</div>
+
+<!-- ===== SLIDE: WORKING MECHANISM ===== -->
+<div class="slide">
+    <h1>Çalışma Mekanizması</h1>
+    <p class="slide-subtitle">Radyal Genişleme → Eksenel Kasılma</p>
+    <div class="content">
+        <div class="flow-diagram">
+            <div class="flow-step">
+                <span class="flow-icon">💨</span>
+                <h4>Basınçlı Hava</h4>
+                <p>Sisteme hava verilir</p>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+                <span class="flow-icon">🎈</span>
+                <h4>Radyal Genişleme</h4>
+                <p>İç mesane radyal yönde şişer</p>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+                <span class="flow-icon">🔗</span>
+                <h4>Kinematik Kısıtlama</h4>
+                <p>Örgü lifleri esnemez</p>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+                <span class="flow-icon">📏</span>
+                <h4>Eksenel Kısalma</h4>
+                <p>Çap artar, uzunluk azalır</p>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step" style="border-color: rgba(0, 180, 216, 0.3);">
+                <span class="flow-icon">💪</span>
+                <h4>Çekme Kuvveti</h4>
+                <p>Lineer kuvvet üretilir</p>
+            </div>
+        </div>
+
+        <div class="highlight-box" style="margin-top: 20px;">
+            <p>🧠 <strong>Anahtar Kavram — "Çin Parmak Tuzağı" Analojisi:</strong> Örgü kılıf, tıpkı bir Çin parmak tuzağı gibi çalışır. İçerideki balon şiştiğinde, örgü ağın lifleri esnemez — tek yapabilecekleri şişmektir. Çap arttıkça, geometri gereği uzunluk zorunlu olarak kısalır.</p>
+        </div>
+
+        <div class="stats-row" style="margin-top: 12px;">
+            <div class="stat-item">
+                <span class="stat-value">%20–30</span>
+                <span class="stat-label">Tipik Kasılma</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">~1000 N</span>
+                <span class="stat-label">Tipik Kuvvet</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">0.1–6 bar</span>
+                <span class="stat-label">Çalışma Basıncı</span>
+            </div>
+        </div>
+    </div>
+    <div class="slide-number"></div>
+</div>
+
+<!-- ===== SLIDE: PAM SIMULATOR ===== -->
+<div class="slide">
+    <h1>🎮 PAM Simülatörü</h1>
+    <p class="slide-subtitle">Basıncı ayarlayarak kasın davranışını canlı izleyin</p>
+    <div class="content">
+        <div class="interactive-container">
+            <div class="muscle-vis">
+                <div class="muscle-svg-container">
+                    <canvas id="pamSimCanvas" width="260" height="400"></canvas>
+                </div>
+                <div style="flex: 1;">
+                    <div class="slider-group">
+                        <label>Hava Basıncı:</label>
+                        <input type="range" id="pamPressureSlider" min="0" max="6" step="0.1" value="0">
+                        <span class="slider-value" id="pamPressureVal">0.0 bar</span>
+                    </div>
+
+                    <div class="muscle-data" style="margin-top: 20px;">
+                        <div class="data-readout">
+                            <span class="data-label">Kasılma Oranı</span>
+                            <span class="data-val" id="pamContractionVal">0.0%</span>
+                        </div>
+                        <div class="data-readout">
+                            <span class="data-label">Çekme Kuvveti</span>
+                            <span class="data-val" id="pamForceVal">0 N</span>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box" style="margin-top: 16px;">
+                        <p>👆 <strong>Kaydırıcıyı sağa çekerek</strong> basıncı artırın. Kasın radyal genişlediğini ve eksenel kısaldığını gözlemleyin.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-number"></div>
+</div>
+
+<!-- ===== SLIDE: BRAID ANGLE 54.7° ===== -->
+<div class="slide">
+    <h1>🎮 Örgü Açısı ve 54.7° Kuralı</h1>
+    <p class="slide-subtitle">Kinematik sınır — geometrinin diktatörlüğü</p>
+    <div class="content">
+        <div class="interactive-container">
+            <div style="display: flex; gap: 24px; align-items: center;">
+                <canvas id="braidAngleCanvas" width="640" height="340"></canvas>
+            </div>
+            <div style="display: flex; gap: 20px; align-items: center; margin-top: 12px;">
+                <div class="slider-group" style="flex: 1;">
+                    <label>Örgü Açısı:</label>
+                    <input type="range" id="braidAngleSlider" min="5" max="85" step="0.5" value="20">
+                    <span class="slider-value" id="braidAngleVal">20°</span>
+                </div>
+                <div class="data-readout" style="min-width: 150px;">
+                    <span class="data-label">Hacim</span>
+                    <span class="data-val" id="braidVolumeVal">—</span>
+                </div>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top: 8px;">
+            <p>📐 <strong>54.7° Kuralı:</strong> Sabit uzunluktaki liflerle sarılmış bir silindirin hacmi, lif açısı 54.7° olduğunda maksimuma ulaşır. Bu açıda inşa edilen bir PAM'a hava basılırsa hacim artamaz → <em>kuvvet üretilmez</em>. PAM ancak θ < 54.7° ile üretilmelidir.</p>
+        </div>
+    </div>
+    <div class="slide-number"></div>
+</div>
+
+<!-- ===== SLIDE: STATIC MODEL ===== -->
+<div class="slide">
+    <h1>Statik Model — Sanal İş Prensibi</h1>
+    <p class="slide-subtitle">Kuvvet-basınç ilişkisinin matematiksel temeli</p>
+    <div class="content">
+        <p>PAM'ın kuvvet üretimi, <em>sanal iş prensibi</em> ile modellenir. Havanın yaptığı iş = kasın mekanik iş çıktısı:</p>
+
+        <div class="formula-box">
+            F = (πD₀² / 4) · P · [ a(1 − ε)² − b ]
+        </div>
+
+        <div class="two-col" style="margin-top: 16px;">
+            <div>
+                <h3>Parametreler</h3>
+                <div class="interactive-container" style="flex-direction: column; align-items: stretch; margin-top: 16px;">
+                    <div class="slider-group">
+                        <label>Basınç (P):</label>
+                        <input type="range" id="statik-p-slider" min="0" max="600000" step="10000" value="300000">
+                        <span class="slider-value" id="statik-p-val">300 kPa</span>
+                    </div>
+                    <div class="slider-group" style="margin-top: 12px;">
+                        <label>Başlangıç Çapı (D₀):</label>
+                        <input type="range" id="statik-d-slider" min="0.01" max="0.05" step="0.005" value="0.02">
+                        <span class="slider-value" id="statik-d-val">0.02 m</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <!-- Simulated Force Gauge visualization -->
+                <div class="glass-card" style="position: relative; height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                    <h3 style="margin: 0; color: rgba(255,255,255,0.7); font-size: 1.1em;">Üretilen Kuvvet (F)</h3>
+                    <div id="statik-force-val" style="font-size: 3em; font-weight: 800; color: var(--accent-gold); margin: 10px 0;">0 N</div>
+                    <div style="width: 100%; height: 20px; background: rgba(0,0,0,0.2); border-radius: 10px; overflow: hidden; position: relative; margin-top: 10px;">
+                        <div id="statik-force-bar" style="position: absolute; left: 50%; top: 0; height: 100%; width: 0%; transform: translateX(-50%); background: var(--gradient-main); border-radius: 10px; transition: width 0.2s;"></div>
+                    </div>
+                    <p style="font-size: 0.8em; opacity: 0.6; margin-top: 12px; margin-bottom: 0;">Geometrik sabitler (a, b) ve kasılma (ε=0) varsayımıyla (1-ε)² = 1 kabul edilmiştir.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-number"></div>
+</div>
+
+<!-- ===== SLIDE: HYSTERESIS ===== -->
+<div class="slide">
+    <h1>Histerezis Problemi</h1>
+    <p class="slide-subtitle">Neden PAM kontrolü bu kadar zor?</p>
+    <div class="content">
+        <div class="two-col">
+            <div>
+                <h3>Histerezis Nedir?</h3>
+                <p>Kas <em>şişirilirken</em> ve <em>söndürülürken</em> farklı kuvvet-uzama eğrileri izler. Aynı basınçta bile farklı konumlara ulaşır.</p>
+
+                <div class="highlight-box warning" style="margin-top: 12px;">
+                    <p>🔄 <strong>Basit Analoji:</strong> Aynı basınca %50 şişirirken gidersek 10 cm uzuma, %50'ye söndürerek geldiğimizde 12 cm uzuma elde ederiz. Kas "geçmişini hatırlar".</p>
+                </div>
+
+                <h3 style="margin-top: 16px;">Neden?</h3>
+                <ul>
+                    <li>Örgü lifleri ile kauçuk arasındaki <strong>sürtünme</strong></li>
+                    <li>Kauçuğun <strong>viskoelastik</strong> davranışı</li>
+                    <li>Hava akış gecikmeleri</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Kontrol Zorlukları</h3>
+                <div class="glass-card" style="margin-bottom: 12px;">
+                    <h4 style="color: var(--accent-red);">❌ Basit PID Yetersiz</h4>
+                    <p>Doğrusal kontrolör, doğrusal olmayan sistemi kontrol edemez. PID "şaşırır".</p>
+                </div>
+                <div class="glass-card">
+                    <h4 style="color: var(--accent-green);">✅ Gelişmiş Çözümler</h4>
+                    <ul style="margin: 8px 0 0; padding-left: 16px;">
+                        <li>Kayan Kipli Kontrol (SMC)</li>
+                        <li>Geri Beslemeli Doğrusallaştırma</li>
+                        <li>Model Referans Uyarlamalı Kontrol</li>
+                        <li>Yapay Sinir Ağı tabanlı kontrol</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-number"></div>
+</div>
