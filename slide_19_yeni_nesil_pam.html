@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Yeni Nesil PAM Tasarımları — Slayt 19</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#e8edf8;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter','Segoe UI',sans-serif;padding:20px}
+.sw{width:100%;max-width:1100px;min-height:600px;background:linear-gradient(135deg,#eef3fc 0%,#f4f7fd 60%,#eaf1fb 100%);border-radius:18px;position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(40,80,180,.12)}
+canvas#bg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.si{position:relative;z-index:1;padding:30px 28px 14px}
+.stitle{font-size:28px;font-weight:800;color:#111e3c;letter-spacing:-0.5px;margin-bottom:4px}
+.ssub{font-size:13px;color:#607090;text-align:center;margin-bottom:18px;letter-spacing:.1px}
+.cr{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.card{background:#fff;border-radius:14px;border:1px solid rgba(90,120,200,.16);padding:16px 14px 14px;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;display:flex;flex-direction:column;gap:8px;position:relative;min-height:315px}
+.card:hover{transform:translateY(-5px);box-shadow:0 10px 34px rgba(40,80,200,.14);border-color:rgba(60,110,230,.5)}
+.zoom-ind{position:absolute;top:10px;right:10px;width:22px;height:22px;background:rgba(60,110,230,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;flex-shrink:0}
+.card:hover .zoom-ind{opacity:1}
+.zoom-ind svg{width:10px;height:10px}
+.cico{height:36px;display:flex;align-items:center;margin-bottom:2px}
+.ctitle{font-size:15px;font-weight:800;color:#111e3c;line-height:1.2}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10.5px;font-weight:700;letter-spacing:.1px;width:fit-content;white-space:nowrap;margin-bottom:2px}
+.b-blue{background:#deeaff;color:#1040a0}
+.b-green{background:#d9f2e6;color:#0b5e3a}
+.b-amber{background:#fff0d4;color:#7a4800}
+.b-red{background:#fce8e8;color:#8f1c1c}
+.cdesc{font-size:11.5px;color:#4a5a78;line-height:1.55;flex:1}
+.cdesc b{font-weight:700;color:#111e3c}
+.sbox{background:#f3f7ff;border-radius:9px;padding:9px 11px;border-left:3px solid #3a68e0;margin-top:4px}
+.sbox.amber{border-left-color:#c07010}
+.snum{font-size:21px;font-weight:900;color:#111e3c;line-height:1.1}
+.slabel{font-size:9.5px;color:#5a6a90;margin-top:2px;line-height:1.3}
+.ssub2{font-size:9.5px;color:#3a58c8;margin-top:3px;line-height:1.3}
+.ssub2.amber{color:#9a5a00}
+.bb{position:relative;z-index:1;background:rgba(255,255,255,.75);border-top:.5px solid rgba(90,120,200,.18);padding:10px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:auto;backdrop-filter:blur(4px)}
+.bblabel{font-size:11.5px;color:#5a6a90;white-space:nowrap;font-weight:500}
+.bbtag{padding:4px 12px;border-radius:20px;font-size:10.5px;font-weight:700;border:.5px solid;cursor:pointer;transition:opacity .15s,transform .15s;display:inline-block}
+.bbtag:hover{opacity:.72;transform:scale(.97)}
+.t-blue{background:#deeaff;color:#1040a0;border-color:#a8c4f8}
+.t-purple{background:#ede9ff;color:#4030a8;border-color:#c0b6f5}
+.t-teal{background:#d8f2eb;color:#0a5e3a;border-color:#8ed8bc}
+.t-pink{background:#fae5f0;color:#8a2050;border-color:#f0b0d0}
+.nb{position:relative;z-index:1;background:rgba(255,255,255,.55);border-top:.5px solid rgba(90,120,200,.12);padding:9px 28px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(4px)}
+.ytub{display:flex;align-items:center;gap:8px}
+.ytuico{width:26px;height:26px;background:#b30019;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:900;color:#fff;letter-spacing:-.5px;flex-shrink:0}
+.ytutxt{font-size:12px;font-weight:700;color:#1a2a4a}
+.nbcenter{display:flex;flex-direction:column;align-items:center;gap:2px}
+.pagen{font-size:12px;color:#5a6a90;font-weight:600}
+.pamtype{font-size:10px;color:#8a9ab8}
+.nbbtns{display:flex;gap:8px;align-items:center}
+.nbtn{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;background:#fff;border:.5px solid rgba(90,120,200,.3);color:#2a4a90;cursor:pointer;transition:background .15s}
+.nbtn:hover{background:#deeaff}
+</style>
+</head>
+<body>
+<div class="sw">
+  <canvas id="bg"></canvas>
+  <div class="si">
+    <div class="stitle">Yeni Nesil PAM Tasarımları</div>
+    <div class="ssub">Karta tıklayın — açıklayıcı şema veya video açılır</div>
+    <div class="cr">
+
+      <!-- X-PAM -->
+      <div class="card">
+        <div class="zoom-ind"><svg viewBox="0 0 9 9" fill="none"><circle cx="4" cy="4" r="3" stroke="#3a68e0" stroke-width="1.2"/><line x1="6.5" y1="6.5" x2="8.5" y2="8.5" stroke="#3a68e0" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+        <div class="cico">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <rect width="34" height="34" rx="8" fill="#fff5e0"/>
+            <path d="M8 8 L26 26M26 8 L8 26" stroke="#e07000" stroke-width="2.6" stroke-linecap="round"/>
+            <circle cx="17" cy="17" r="3.2" fill="#e07000" opacity=".9"/>
+            <path d="M10 17 Q13.5 13.5 17 17 Q20.5 20.5 24 17" stroke="#ffb020" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+            <circle cx="8" cy="8" r="2.2" fill="#ffb020"/>
+            <circle cx="26" cy="8" r="2.2" fill="#ffb020"/>
+            <circle cx="8" cy="26" r="2.2" fill="#ffb020"/>
+            <circle cx="26" cy="26" r="2.2" fill="#ffb020"/>
+          </svg>
+        </div>
+        <div class="ctitle">X-PAM</div>
+        <div class="badge b-blue">Science Advances 2023</div>
+        <div class="cdesc">X-çapraz mekanizmasıyla lineer hareketi <b>dönüştürür</b>.</div>
+        <div class="sbox">
+          <div class="snum">%92.9</div>
+          <div class="slabel">Kasılma Oranı — Benzeri Görülmemiş!</div>
+          <div class="ssub2">207.9 N/kg/kPa çıkış kuvveti</div>
+        </div>
+      </div>
+
+      <!-- LPPAM -->
+      <div class="card">
+        <div class="zoom-ind"><svg viewBox="0 0 9 9" fill="none"><circle cx="4" cy="4" r="3" stroke="#3a68e0" stroke-width="1.2"/><line x1="6.5" y1="6.5" x2="8.5" y2="8.5" stroke="#3a68e0" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+        <div class="cico">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <rect width="34" height="34" rx="8" fill="#e0f5ee"/>
+            <rect x="7" y="10" width="20" height="14" rx="3.5" fill="none" stroke="#0d8050" stroke-width="1.7"/>
+            <path d="M7 15 Q10.5 12.5 14 15 Q17.5 17.5 21 15 Q24.5 12.5 27 15" stroke="#0d8050" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            <path d="M7 20 Q10.5 17.5 14 20 Q17.5 22.5 21 20 Q24.5 17.5 27 20" stroke="#0d8050" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            <circle cx="9" cy="17" r="1.8" fill="#1db070"/>
+            <circle cx="25" cy="17" r="1.8" fill="#1db070"/>
+          </svg>
+        </div>
+        <div class="ctitle">LPPAM</div>
+        <div class="badge b-green">Giyilebilir</div>
+        <div class="cdesc">Lateral Pleated PAM — tek yönlü genişleme. Giyilebilir uygulamalarda girişimi minimuma indirir.</div>
+        <div class="sbox">
+          <div class="snum">%58.1</div>
+          <div class="slabel">Kasılma Oranı</div>
+          <div class="ssub2">Maks. kuvvetin %80'ini aralığın %86'sında korur</div>
+        </div>
+      </div>
+
+      <!-- Ters PAM -->
+      <div class="card">
+        <div class="zoom-ind"><svg viewBox="0 0 9 9" fill="none"><circle cx="4" cy="4" r="3" stroke="#3a68e0" stroke-width="1.2"/><line x1="6.5" y1="6.5" x2="8.5" y2="8.5" stroke="#3a68e0" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+        <div class="cico">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <rect width="34" height="34" rx="8" fill="#fff8e0"/>
+            <rect x="13" y="9" width="8" height="7" rx="2.5" fill="#c07010" opacity=".85"/>
+            <rect x="10" y="18" width="14" height="8" rx="2.5" fill="#e09020" opacity=".9"/>
+            <path d="M17 9 L17 5" stroke="#c07010" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M17 26 L17 30" stroke="#e09020" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M14 5 L17 2.5 L20 5" stroke="#c07010" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M14 30 L17 32.5 L20 30" stroke="#e09020" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <line x1="8" y1="16.5" x2="26" y2="16.5" stroke="#c07010" stroke-width=".8" stroke-dasharray="2.5 2"/>
+          </svg>
+        </div>
+        <div class="ctitle">Ters PAM (IPAM)</div>
+        <div class="badge b-amber">Devrimci</div>
+        <div class="cdesc">Şişirildiğinde kısalmak yerine <b>uzar!</b> 3D örme tekniğiyle üretilir.</div>
+        <div class="sbox">
+          <div class="snum">%117</div>
+          <div class="slabel">Eksenel Uzama</div>
+          <div class="ssub2">θ₀ &gt; 54.7° → ekstansör rejim (bkz. slayt 10)</div>
+        </div>
+      </div>
+
+      <!-- SMA Kompozit -->
+      <div class="card">
+        <div class="zoom-ind"><svg viewBox="0 0 9 9" fill="none"><circle cx="4" cy="4" r="3" stroke="#3a68e0" stroke-width="1.2"/><line x1="6.5" y1="6.5" x2="8.5" y2="8.5" stroke="#3a68e0" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+        <div class="cico">
+          <svg width="36" height="34" viewBox="0 0 36 34" fill="none">
+            <rect width="36" height="34" rx="8" fill="#fff0e8"/>
+            <!-- Martensit (dashed, loosely coiled) -->
+            <path d="M4 13 Q6.5 10.5 9 13 Q11.5 15.5 14 13 Q16.5 10.5 19 13 Q21.5 15.5 24 13 Q26.5 10.5 29 13 Q31.5 15.5 32 13" stroke="#e07040" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-dasharray="2.5 2"/>
+            <!-- Ostenit (solid, tightly coiled) -->
+            <path d="M4 22 Q6 19 8 22 Q10 25 12 22 Q14 19 16 22 Q18 25 20 22 Q22 19 24 22 Q26 25 28 22 Q30 19 32 22" stroke="#c04010" stroke-width="2.1" fill="none" stroke-linecap="round"/>
+            <!-- End caps -->
+            <line x1="4" y1="13" x2="4" y2="22" stroke="#c04010" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="32" y1="13" x2="32" y2="22" stroke="#c04010" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Thermal arrow up -->
+            <path d="M29 8 L31 5 L33 8" stroke="#e05000" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <line x1="31" y1="5" x2="31" y2="11" stroke="#e05000" stroke-width="1.2" stroke-linecap="round"/>
+            <!-- °C label -->
+            <text x="21" y="9" font-size="7.5" fill="#c04010" font-weight="800" font-family="sans-serif">°C</text>
+            <!-- Flame / Joule -->
+            <path d="M17 7.5 Q18 5.5 16.5 4 Q17.5 5 19 4.5 Q17.5 6 19.5 7.5 Q18.5 6.5 17 7.5Z" fill="#ff5500" opacity=".8"/>
+          </svg>
+        </div>
+        <div class="ctitle">SMA Kompozit</div>
+        <div class="badge b-red">Termal Aktivasyon (Phase Change)</div>
+        <div class="cdesc">Sıcaklık değişimi (Joule ısıtması) ile mikroyapısal faz değiştirerek (<b>Martensit → Östenit</b>) şekil kazanır. Polimer matris içinde entegre yüksek kuvvet üretir.</div>
+        <div class="sbox amber">
+          <div class="snum">&gt;200 MPa</div>
+          <div class="slabel">Çekme Gerilmesi</div>
+          <div class="ssub2 amber">Kütleye göre çok yüksek kuvvet</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bb">
+    <span class="bblabel">🚀 Diğer yeni nesil tasarımlar:</span>
+    <span class="bbtag t-blue">Origami PAM</span>
+    <span class="bbtag t-purple">MAIPAM (çoklu-mod)</span>
+    <span class="bbtag t-teal">Vakum-destekli</span>
+    <span class="bbtag t-pink">Fototermal minyatür</span>
+  </div>
+
+  <div class="nb">
+    <div class="ytub">
+      <div class="ytuico">YTÜ</div>
+      <span class="ytutxt">Yıldız Teknik Üniversitesi</span>
+    </div>
+    <div class="nbcenter">
+      <span class="pagen">19 / 40</span>
+      <span class="pamtype">PAM Türleri · 3 / 3</span>
+    </div>
+    <div class="nbbtns">
+      <button class="nbtn">← Önceki</button>
+      <button class="nbtn">Sonraki →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const c=document.getElementById('bg');
+  const ctx=c.getContext('2d');
+  const pts=[];
+  let W,H;
+  function resize(){
+    const p=c.parentElement;
+    W=c.width=p.offsetWidth;
+    H=c.height=p.offsetHeight;
+  }
+  function init(){
+    resize();
+    pts.length=0;
+    for(let i=0;i<65;i++){
+      pts.push({
+        x:Math.random()*W,y:Math.random()*H,
+        vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,
+        r:Math.random()*1.8+1.2
+      });
+    }
+  }
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    for(let i=0;i<pts.length;i++){
+      const a=pts[i];
+      a.x+=a.vx;a.y+=a.vy;
+      if(a.x<0||a.x>W)a.vx*=-1;
+      if(a.y<0||a.y>H)a.vy*=-1;
+      for(let j=i+1;j<pts.length;j++){
+        const b=pts[j];
+        const dx=a.x-b.x,dy=a.y-b.y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<115){
+          ctx.beginPath();
+          ctx.strokeStyle=`rgba(70,110,210,${.13*(1-d/115)})`;
+          ctx.lineWidth=.7;
+          ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+          ctx.stroke();
+        }
+      }
+      ctx.beginPath();
+      ctx.arc(a.x,a.y,a.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(70,110,210,.22)';
+      ctx.fill();
+    }
+    requestAnimationFrame(frame);
+  }
+  window.addEventListener('resize',resize);
+  init();frame();
+})();
+</script>
+</body>
+</html>

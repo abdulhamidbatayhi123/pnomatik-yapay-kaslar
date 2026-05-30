@@ -15,11 +15,11 @@ async function initPresentation() {
         updateSlideNumbers();
         setupNavigation();
 
-        // Restore from URL hash
+        // Restore from URL hash (1-indexed: #slide=1 is the first slide)
         const hashMatch = location.hash.match(/^#slide=(\d+)$/);
         if (hashMatch) {
-            const savedSlide = parseInt(hashMatch[1], 10);
-            if (savedSlide > 0 && savedSlide < totalSlides) {
+            const savedSlide = parseInt(hashMatch[1], 10) - 1; // convert 1-indexed URL to 0-indexed internal
+            if (savedSlide >= 0 && savedSlide < totalSlides) {
                 currentSlide = savedSlide;
             }
         }
@@ -203,7 +203,7 @@ function showSlide(n, direction) {
     // Trigger animations on the new slide
     triggerSlideAnimations(slides[currentSlide]);
 
-    history.replaceState(null, null, `#slide=${currentSlide}`);
+    history.replaceState(null, null, `#slide=${currentSlide + 1}`);
 }
 
 // Next slide
@@ -302,6 +302,12 @@ function updateSlideNumbers() {
     slides.forEach((slide, globalIndex) => {
         const slideNumber = slide.querySelector('.slide-number');
         if (slideNumber) {
+            // Per-slide breadcrumb override: <div class="slide" data-static-label="...">
+            const staticLabel = slide.getAttribute('data-static-label');
+            if (staticLabel) {
+                slideNumber.textContent = staticLabel;
+                return;
+            }
             let sectionIndex = 0;
             for (let i = 0; i < sections.length; i++) {
                 const nextSection = sections[i + 1];
@@ -340,6 +346,20 @@ function triggerSlideAnimations(slideEl) {
     if (systemFlow && !systemFlow._initialized) {
         initSystemFlow(systemFlow);
         systemFlow._initialized = true;
+    }
+
+    // Static model (Chou-Hannaford) sliders — initialize the first time this slide is shown
+    const statikSlider = slideEl.querySelector('#statik-p-slider');
+    if (statikSlider && !slideEl._statikInitialized) {
+        if (typeof initStatikModel === 'function') {
+            initStatikModel();
+            slideEl._statikInitialized = true;
+        }
+    }
+
+    // Wire any expandable media tiles on this slide
+    if (typeof initExpandableTiles === 'function') {
+        initExpandableTiles(slideEl);
     }
 
     // Animate counters

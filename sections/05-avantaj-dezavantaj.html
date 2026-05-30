@@ -6,29 +6,182 @@
     <p class="section-description">PAM'lerin benzersiz avantajları ve mühendislerin aşması gereken temel zorluklar.</p>
 </div>
 
-<!-- ===== SLIDE: INHERENT COMPLIANCE ===== -->
-<div class="slide">
+<!-- ===== SLIDE: INHERENT COMPLIANCE (INTERACTIVE) ===== -->
+<div class="slide compliance-slide">
     <h1>Doğal Esneklik (Compliance)</h1>
     <p class="slide-subtitle">PAM'in en kritik avantajı: fiziksel güvenlik</p>
     <div class="content">
-        <div class="two-col">
-            <div class="glass-card" style="border-color: rgba(239, 68, 68, 0.2);">
-                <span class="card-icon">🦿</span>
-                <h3>Rijit Motor (Dişli Sistem)</h3>
-                <p>Çelik dişliler ve linkajlarla çalışır. Robot kol bir insana çarparsa:</p>
-                <div class="highlight-box danger" style="margin-top: 8px;">
-                    <p>❌ Motor programlandığı koordinata ulaşana kadar itmeye devam eder → <strong>yaralanma riski</strong></p>
+        <div class="compliance-arena" id="complianceArena" data-state="idle">
+            <!-- Card titles in the top corners of the arena -->
+            <div class="compliance-arena-titles">
+                <div class="arena-title arena-title-left">
+                    <span class="arena-dot arena-dot-red"></span>
+                    Rijit Motor (Dişli Sistem) — <em>Aktif Compliance</em>
                 </div>
-                <p style="font-size: 0.9em; margin-top: 8px;">Güvenlik için pahalı kuvvet sensörleri + yazılım gerekir → <em>"Aktif Compliance"</em></p>
+                <div class="arena-title arena-title-right">
+                    <span class="arena-dot arena-dot-green"></span>
+                    PAM (Pnömatik Kas) — <em>Pasif Compliance</em>
+                </div>
             </div>
-            <div class="glass-card" style="border-color: rgba(34, 197, 94, 0.2);">
-                <span class="card-icon">💨</span>
-                <h3>PAM (Pnömatik Kas)</h3>
-                <p>Hava ile çalışır, hava sıkıştırılabilir. Robot kol bir insana çarparsa:</p>
-                <div class="highlight-box success" style="margin-top: 8px;">
-                    <p>✅ İçerideki hava fiziksel olarak sıkışır → kol <strong>doğal olarak geri çekilir</strong>, amortisör gibi davranır</p>
+
+            <!-- Animation stages (initially opacity:0) -->
+            <div class="compliance-stages">
+                <!-- LEFT STAGE: rigid motor collision -->
+                <div class="compliance-stage compliance-stage-left" aria-hidden="true">
+                    <svg class="sim-svg sim-svg-rigid" viewBox="0 0 360 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <linearGradient id="rigidArmGrad" x1="0" x2="1">
+                                <stop offset="0" stop-color="#5b6776"/><stop offset="1" stop-color="#2c3744"/>
+                            </linearGradient>
+                            <linearGradient id="rigidGearGrad" x1="0" x2="1" y1="0" y2="1">
+                                <stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/>
+                            </linearGradient>
+                            <radialGradient id="impactRedGrad" cx="0.5" cy="0.5" r="0.5">
+                                <stop offset="0" stop-color="#ff3b3b" stop-opacity="0.95"/>
+                                <stop offset="1" stop-color="#ff3b3b" stop-opacity="0"/>
+                            </radialGradient>
+                            <marker id="rigidArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                                <polygon points="0 0, 7 4, 0 8" fill="#ef4444"/>
+                            </marker>
+                        </defs>
+                        <!-- Ground / floor line -->
+                        <line x1="10" y1="200" x2="350" y2="200" stroke="#cbd5e1" stroke-width="1.4" stroke-dasharray="2,4"/>
+                        <!-- Geared motor base -->
+                        <g class="rigid-motor-base">
+                            <rect x="22" y="150" width="46" height="42" rx="4" fill="url(#rigidGearGrad)" stroke="#334155" stroke-width="1"/>
+                            <g class="rigid-gear" transform="translate(45 132)">
+                                <circle r="13" fill="#cbd5e1" stroke="#334155" stroke-width="1.2"/>
+                                <g fill="#475569">
+                                    <rect x="-1.3" y="-16" width="2.6" height="5"/>
+                                    <rect x="-1.3" y="11" width="2.6" height="5"/>
+                                    <rect x="-16" y="-1.3" width="5" height="2.6"/>
+                                    <rect x="11" y="-1.3" width="5" height="2.6"/>
+                                    <rect x="-12.5" y="-12.5" width="4" height="2.6" transform="rotate(45)"/>
+                                    <rect x="8.5" y="-12.5" width="4" height="2.6" transform="rotate(45)"/>
+                                    <rect x="-12.5" y="9.9" width="4" height="2.6" transform="rotate(45)"/>
+                                    <rect x="8.5" y="9.9" width="4" height="2.6" transform="rotate(45)"/>
+                                </g>
+                                <circle r="3" fill="#1e293b"/>
+                            </g>
+                        </g>
+                        <!-- Two-link rigid arm — rotates from pivot -->
+                        <g class="rigid-arm" transform="translate(45 132)">
+                            <g class="rigid-arm-rot">
+                                <!-- Link 1 -->
+                                <rect x="0" y="-7" width="100" height="14" rx="3" fill="url(#rigidArmGrad)" stroke="#1e293b" stroke-width="1"/>
+                                <circle cx="0" cy="0" r="4" fill="#0f172a"/>
+                                <!-- Elbow joint -->
+                                <circle cx="100" cy="0" r="5" fill="#0f172a"/>
+                                <!-- Link 2 -->
+                                <g class="rigid-arm-link2">
+                                    <rect x="100" y="-5.5" width="78" height="11" rx="2.5" fill="url(#rigidArmGrad)" stroke="#1e293b" stroke-width="1"/>
+                                    <rect x="174" y="-9" width="8" height="18" rx="2" fill="#0f172a"/>
+                                </g>
+                            </g>
+                        </g>
+                        <!-- Padded obstacle (deforms on impact) -->
+                        <g class="rigid-obstacle" transform="translate(285 138)">
+                            <rect class="rigid-obstacle-body" x="-22" y="-30" width="44" height="60" rx="10"
+                                  fill="#fde68a" stroke="#b45309" stroke-width="1.4"/>
+                            <text x="0" y="4" text-anchor="middle" font-family="Inter" font-size="9" fill="#7c2d12">İnsan</text>
+                        </g>
+                        <!-- Red impact burst + force vector -->
+                        <g class="rigid-impact" opacity="0">
+                            <circle cx="263" cy="132" r="26" fill="url(#impactRedGrad)"/>
+                            <g stroke="#ef4444" stroke-width="2.2" fill="none" marker-end="url(#rigidArrow)">
+                                <line x1="240" y1="132" x2="278" y2="132"/>
+                            </g>
+                            <text x="295" y="118" font-family="Inter" font-size="10" font-weight="700" fill="#b91c1c">YÜKSEK KUVVET</text>
+                        </g>
+                    </svg>
                 </div>
-                <p style="font-size: 0.9em; margin-top: 8px;">Sensör/yazılım gerekmez → <em>"Pasif Compliance"</em></p>
+
+                <!-- RIGHT STAGE: PAM compliant collision -->
+                <div class="compliance-stage compliance-stage-right" aria-hidden="true">
+                    <svg class="sim-svg sim-svg-pam" viewBox="0 0 360 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <linearGradient id="pamArmGrad" x1="0" x2="1">
+                                <stop offset="0" stop-color="#475569"/><stop offset="1" stop-color="#1e293b"/>
+                            </linearGradient>
+                            <linearGradient id="pamMuscleGrad" x1="0" x2="0" y1="0" y2="1">
+                                <stop offset="0" stop-color="rgba(186,230,253,0.85)"/>
+                                <stop offset="0.5" stop-color="rgba(125,211,252,0.55)"/>
+                                <stop offset="1" stop-color="rgba(186,230,253,0.85)"/>
+                            </linearGradient>
+                            <radialGradient id="impactGreenGrad" cx="0.5" cy="0.5" r="0.5">
+                                <stop offset="0" stop-color="#22c55e" stop-opacity="0.9"/>
+                                <stop offset="1" stop-color="#22c55e" stop-opacity="0"/>
+                            </radialGradient>
+                            <marker id="pamArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                                <polygon points="0 0, 7 4, 0 8" fill="#16a34a"/>
+                            </marker>
+                            <pattern id="pamFibers" width="6" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
+                                <line x1="0" y1="0" x2="0" y2="14" stroke="#0369a1" stroke-width="0.7" opacity="0.6"/>
+                            </pattern>
+                        </defs>
+                        <line x1="10" y1="200" x2="350" y2="200" stroke="#cbd5e1" stroke-width="1.4" stroke-dasharray="2,4"/>
+                        <!-- PAM base mounting -->
+                        <g class="pam-base">
+                            <rect x="22" y="155" width="46" height="37" rx="4" fill="#cbd5e1" stroke="#475569" stroke-width="1"/>
+                            <circle cx="45" cy="138" r="6" fill="#1e293b"/>
+                        </g>
+                        <!-- Arm pivots from the muscle anchor -->
+                        <g class="pam-arm" transform="translate(45 138)">
+                            <g class="pam-arm-rot">
+                                <!-- Link 1 -->
+                                <rect x="0" y="-7" width="100" height="14" rx="3" fill="url(#pamArmGrad)" stroke="#0f172a" stroke-width="1"/>
+                                <!-- Transparent PAM muscle along the link -->
+                                <g class="pam-muscle">
+                                    <rect class="pam-muscle-body" x="14" y="-9" width="74" height="18" rx="9"
+                                          fill="url(#pamMuscleGrad)" stroke="#0284c7" stroke-width="1.1"/>
+                                    <rect class="pam-muscle-fibers" x="14" y="-9" width="74" height="18" rx="9"
+                                          fill="url(#pamFibers)" opacity="0.55"/>
+                                    <!-- End caps -->
+                                    <rect x="10" y="-10" width="6" height="20" rx="1.5" fill="#94a3b8" stroke="#334155" stroke-width="0.8"/>
+                                    <rect x="86" y="-10" width="6" height="20" rx="1.5" fill="#94a3b8" stroke="#334155" stroke-width="0.8"/>
+                                </g>
+                                <circle cx="100" cy="0" r="5" fill="#0f172a"/>
+                                <g class="pam-arm-link2">
+                                    <rect x="100" y="-5.5" width="78" height="11" rx="2.5" fill="url(#pamArmGrad)" stroke="#0f172a" stroke-width="1"/>
+                                    <rect x="174" y="-9" width="8" height="18" rx="2" fill="#0f172a"/>
+                                </g>
+                            </g>
+                        </g>
+                        <!-- Padded obstacle (barely deforms) -->
+                        <g class="pam-obstacle" transform="translate(285 144)">
+                            <rect class="pam-obstacle-body" x="-22" y="-30" width="44" height="60" rx="10"
+                                  fill="#fde68a" stroke="#b45309" stroke-width="1.4"/>
+                            <text x="0" y="4" text-anchor="middle" font-family="Inter" font-size="9" fill="#7c2d12">İnsan</text>
+                        </g>
+                        <!-- Green soft force vector -->
+                        <g class="pam-impact" opacity="0">
+                            <circle cx="263" cy="138" r="22" fill="url(#impactGreenGrad)"/>
+                            <g stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#pamArrow)">
+                                <line x1="246" y1="138" x2="275" y2="138"/>
+                            </g>
+                            <text x="295" y="124" font-family="Inter" font-size="10" font-weight="700" fill="#15803d">YUMUŞAK TEMAS</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Result overlays (revealed after simulation) -->
+            <div class="compliance-results">
+                <div class="compliance-result compliance-result-left">
+                    <p>🔴 Motor programlandığı koordinata ulaşana kadar itmeye devam eder → <strong>yaralanma riski</strong></p>
+                </div>
+                <div class="compliance-result compliance-result-right">
+                    <p>🟢 İçerideki hava fiziksel olarak sıkışır → kol <strong>doğal olarak geri çekilir</strong>, amortisör gibi davranır</p>
+                </div>
+            </div>
+
+            <!-- Central CTA button -->
+            <div class="compliance-cta">
+                <button type="button" class="compliance-btn" id="complianceSimBtn">
+                    <span class="compliance-btn-icon" aria-hidden="true">▶</span>
+                    <span class="compliance-btn-label">Çarpışmayı Simüle Et</span>
+                </button>
+                <button type="button" class="compliance-reset" id="complianceResetBtn" aria-label="Simülasyonu sıfırla">↻ Tekrar Oynat</button>
             </div>
         </div>
 
@@ -78,14 +231,14 @@
                 </tr>
                 <tr>
                     <td><strong>Kasılma Oranı</strong></td>
-                    <td class="good">%20–93</td>
+                    <td class="good">%20–40</td>
                     <td>—</td>
                     <td>—</td>
                     <td class="bad">%4–8</td>
                 </tr>
                 <tr>
                     <td><strong>Histerezis</strong></td>
-                    <td class="mid">Yüksek</td>
+                    <td class="bad">Yüksek</td>
                     <td class="good">Çok Düşük</td>
                     <td class="good">Düşük</td>
                     <td class="bad">Çok Yüksek</td>

@@ -12,31 +12,31 @@
     <p class="slide-subtitle">Radyal Genişleme → Eksenel Kasılma</p>
     <div class="content">
         <div class="flow-diagram">
-            <div class="flow-step">
+            <div class="flow-step seq-1">
                 <span class="flow-icon">💨</span>
                 <h4>Basınçlı Hava</h4>
                 <p>Sisteme hava verilir</p>
             </div>
             <span class="flow-arrow">→</span>
-            <div class="flow-step">
+            <div class="flow-step seq-2">
                 <span class="flow-icon">🎈</span>
                 <h4>Radyal Genişleme</h4>
                 <p>İç mesane radyal yönde şişer</p>
             </div>
             <span class="flow-arrow">→</span>
-            <div class="flow-step">
+            <div class="flow-step seq-3">
                 <span class="flow-icon">🔗</span>
                 <h4>Kinematik Kısıtlama</h4>
                 <p>Örgü lifleri esnemez</p>
             </div>
             <span class="flow-arrow">→</span>
-            <div class="flow-step">
+            <div class="flow-step seq-4">
                 <span class="flow-icon">📏</span>
                 <h4>Eksenel Kısalma</h4>
                 <p>Çap artar, uzunluk azalır</p>
             </div>
             <span class="flow-arrow">→</span>
-            <div class="flow-step" style="border-color: rgba(0, 180, 216, 0.3);">
+            <div class="flow-step seq-5" style="border-color: rgba(0, 180, 216, 0.3);">
                 <span class="flow-icon">💪</span>
                 <h4>Çekme Kuvveti</h4>
                 <p>Lineer kuvvet üretilir</p>
@@ -93,9 +93,7 @@
                         </div>
                     </div>
 
-                    <div class="highlight-box" style="margin-top: 16px;">
-                        <p>👆 <strong>Kaydırıcıyı sağa çekerek</strong> basıncı artırın. Kasın radyal genişlediğini ve eksenel kısaldığını gözlemleyin.</p>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -114,18 +112,27 @@
             </div>
             <div style="display: flex; gap: 20px; align-items: center; margin-top: 12px;">
                 <div class="slider-group" style="flex: 1;">
-                    <label>Örgü Açısı:</label>
+                    <label>Örgü Açısı (θ):</label>
                     <input type="range" id="braidAngleSlider" min="5" max="85" step="0.5" value="20">
                     <span class="slider-value" id="braidAngleVal">20°</span>
                 </div>
                 <div class="data-readout" style="min-width: 150px;">
-                    <span class="data-label">Hacim</span>
+                    <span class="data-label">Bağıl Hacim V/Vmaks</span>
                     <span class="data-val" id="braidVolumeVal">—</span>
                 </div>
             </div>
         </div>
-        <div class="highlight-box" style="margin-top: 8px;">
-            <p>📐 <strong>54.7° Kuralı:</strong> Sabit uzunluktaki liflerle sarılmış bir silindirin hacmi, lif açısı 54.7° olduğunda maksimuma ulaşır. Bu açıda inşa edilen bir PAM'a hava basılırsa hacim artamaz → <em>kuvvet üretilmez</em>. PAM ancak θ < 54.7° ile üretilmelidir.</p>
+        <div class="two-col" style="margin-top: 8px; gap: 16px;">
+            <div class="highlight-box" style="margin: 0;">
+                <p style="font-size: 0.92em;">📐 <strong>54.7° Kuralı:</strong> Sabit uzunluktaki örgü liflerinin sardığı silindirin hacmi
+                    V ∝ sin²θ · cosθ ile değişir ve <strong>θ = arctan(√2) ≈ 54.7°</strong>'de maksimuma ulaşır.
+                    Bu açıda <em>dV/dL = 0</em> → P·dV = F·dL eşitliğinden <strong>F = 0</strong>.</p>
+            </div>
+            <div class="highlight-box" style="margin: 0; background: rgba(26, 138, 74, 0.08); border-color: rgba(26, 138, 74, 0.25);">
+                <p style="font-size: 0.92em;">🧭 <strong>İki Bölge:</strong>
+                    θ₀ &lt; 54.7° ile üretilen PAM <em>kontraktil</em>dir — şişerken kısalır.
+                    θ₀ &gt; 54.7° ile üretilirse <em>ekstansör</em>dür — şişerken uzar (bkz. Yeni Nesil PAM: <strong>IPAM</strong>).</p>
+            </div>
         </div>
     </div>
     <div class="slide-number"></div>
@@ -134,39 +141,57 @@
 <!-- ===== SLIDE: STATIC MODEL ===== -->
 <div class="slide">
     <h1>Statik Model — Sanal İş Prensibi</h1>
-    <p class="slide-subtitle">Kuvvet-basınç ilişkisinin matematiksel temeli</p>
+    <p class="slide-subtitle">Chou & Hannaford (1996) McKibben modeli</p>
     <div class="content">
-        <p>PAM'ın kuvvet üretimi, <em>sanal iş prensibi</em> ile modellenir. Havanın yaptığı iş = kasın mekanik iş çıktısı:</p>
-
         <div class="formula-box">
-            F = (πD₀² / 4) · P · [ a(1 − ε)² − b ]
+            F(P,&nbsp;ε) = (πD₀² / 4) · P · [ a(1 − ε)² − b ]
+            <div class="formula-params">
+                a = 3 / tan²θ₀ &nbsp;·&nbsp; b = 1 / sin²θ₀ &nbsp;·&nbsp; ε = (L₀ − L) / L₀
+            </div>
         </div>
 
-        <div class="two-col" style="margin-top: 16px;">
+        <div class="two-col" style="margin-top: 12px;">
             <div>
                 <h3>Parametreler</h3>
-                <div class="interactive-container" style="flex-direction: column; align-items: stretch; margin-top: 16px;">
+                <div class="interactive-container" style="flex-direction: column; align-items: stretch; margin-top: 12px;">
                     <div class="slider-group">
                         <label>Basınç (P):</label>
                         <input type="range" id="statik-p-slider" min="0" max="600000" step="10000" value="300000">
                         <span class="slider-value" id="statik-p-val">300 kPa</span>
                     </div>
-                    <div class="slider-group" style="margin-top: 12px;">
+                    <div class="slider-group" style="margin-top: 10px;">
                         <label>Başlangıç Çapı (D₀):</label>
                         <input type="range" id="statik-d-slider" min="0.01" max="0.05" step="0.005" value="0.02">
-                        <span class="slider-value" id="statik-d-val">0.02 m</span>
+                        <span class="slider-value" id="statik-d-val">0.020 m</span>
+                    </div>
+                    <div class="slider-group" style="margin-top: 10px;">
+                        <label>Başlangıç Örgü Açısı (θ₀):</label>
+                        <input type="range" id="statik-theta-slider" min="10" max="50" step="1" value="20">
+                        <span class="slider-value" id="statik-theta-val">20°</span>
+                    </div>
+                    <div class="slider-group" style="margin-top: 10px;">
+                        <label>Kasılma (ε):</label>
+                        <input type="range" id="statik-eps-slider" min="0" max="0.30" step="0.005" value="0">
+                        <span class="slider-value" id="statik-eps-val">%0.0</span>
                     </div>
                 </div>
-            </div>
+</div>
             <div>
-                <!-- Simulated Force Gauge visualization -->
-                <div class="glass-card" style="position: relative; height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                    <h3 style="margin: 0; color: rgba(255,255,255,0.7); font-size: 1.1em;">Üretilen Kuvvet (F)</h3>
-                    <div id="statik-force-val" style="font-size: 3em; font-weight: 800; color: var(--accent-gold); margin: 10px 0;">0 N</div>
-                    <div style="width: 100%; height: 20px; background: rgba(0,0,0,0.2); border-radius: 10px; overflow: hidden; position: relative; margin-top: 10px;">
-                        <div id="statik-force-bar" style="position: absolute; left: 50%; top: 0; height: 100%; width: 0%; transform: translateX(-50%); background: var(--gradient-main); border-radius: 10px; transition: width 0.2s;"></div>
+                <div class="glass-card" style="position: relative; padding: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                    <h3 style="margin: 0; color: var(--text-secondary); font-size: 1.05em;">Üretilen Çekme Kuvveti (F)</h3>
+                    <div id="statik-force-val" style="font-size: 2.6em; font-weight: 800; color: var(--accent-gold); margin: 6px 0 4px;">0 N</div>
+                    <div style="width: 100%; height: 16px; background: rgba(0,40,85,0.08); border-radius: 10px; overflow: hidden; position: relative; margin-top: 6px;">
+                        <div id="statik-force-bar" style="position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--gradient-main); border-radius: 10px; transition: width 0.2s;"></div>
                     </div>
-                    <p style="font-size: 0.8em; opacity: 0.6; margin-top: 12px; margin-bottom: 0;">Geometrik sabitler (a, b) ve kasılma (ε=0) varsayımıyla (1-ε)² = 1 kabul edilmiştir.</p>
+                    <div style="display: flex; gap: 18px; margin-top: 12px; font-size: 0.85em;">
+                        <span><strong>a</strong> = <span id="statik-a-val">22.6</span></span>
+                        <span><strong>b</strong> = <span id="statik-b-val">8.55</span></span>
+                        <span><strong>(a−b)</strong> = <span id="statik-amb-val">14.1</span></span>
+                    </div>
+                    <p style="font-size: 0.78em; opacity: 0.7; margin-top: 10px; margin-bottom: 0;">F &gt; 0 ise kas çeker. <strong>F = 0</strong> noktası, ε &amp; θ₀'a göre kasın <em>maksimum kasılmasına</em> denk gelir.</p>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <p style="font-size: 0.85em;">📐 θ₀ küçüldükçe başlangıç kuvveti artar; θ₀ → 54.7° iken (a − b) → 0 olur ve kas iş üretemez.</p>
                 </div>
             </div>
         </div>

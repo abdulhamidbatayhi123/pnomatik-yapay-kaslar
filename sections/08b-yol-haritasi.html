@@ -1,0 +1,103 @@
+<!-- ===== SECTION: SONUÇ & YOL HARİTASI ===== -->
+<!-- TRL slide moved here as the closing roadmap slide, just before "Teşekkürler / Kaynaklar". -->
+
+<!-- ===== SLIDE: TRL STATUS ===== -->
+<div class="slide" data-static-label="Sonuç & Yol Haritası">
+    <h1>Teknoloji Hazırlık Düzeyi (TRL)</h1>
+    <p class="slide-subtitle">Gelecekteki Araştırma ve Ticarileşme Haritası</p>
+    <div class="content">
+        <p style="margin-bottom:14px;">NASA'nın TRL ölçeği (1–9) bir teknolojinin araştırma fikriyle ticari ürün arasındaki mesafesini ölçer. PAM ailesi bu skalada <em>geniş bir yelpaze</em> kaplar:</p>
+
+        <!-- TRL gradient bar (SVG) -->
+        <div class="trl-bar-wrap">
+            <svg viewBox="0 0 820 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="width:100%;max-width:820px;display:block;margin:0 auto;">
+                <defs>
+                    <linearGradient id="trlGrad" x1="0" x2="1" y1="0" y2="0">
+                        <stop offset="0%"   stop-color="#c0392b" stop-opacity="0.78"/>
+                        <stop offset="45%"  stop-color="#c8a415" stop-opacity="0.78"/>
+                        <stop offset="100%" stop-color="#1a8a4a" stop-opacity="0.78"/>
+                    </linearGradient>
+                </defs>
+                <!-- Bar -->
+                <rect x="30" y="40" width="760" height="40" rx="20" fill="url(#trlGrad)"/>
+                <!-- TRL numbers -->
+                <g font-family="Inter,sans-serif" font-size="14" text-anchor="middle" fill="#fff" font-weight="700">
+                    <text x="72"  y="66">1</text>
+                    <text x="156" y="66">2</text>
+                    <text x="241" y="66">3</text>
+                    <text x="325" y="66">4</text>
+                    <text x="410" y="66">5</text>
+                    <text x="494" y="66">6</text>
+                    <text x="578" y="66">7</text>
+                    <text x="663" y="66">8</text>
+                    <text x="747" y="66">9</text>
+                </g>
+                <!-- Dividers between cells -->
+                <g stroke="rgba(255,255,255,0.4)" stroke-width="1">
+                    <line x1="114" y1="40" x2="114" y2="80"/>
+                    <line x1="199" y1="40" x2="199" y2="80"/>
+                    <line x1="283" y1="40" x2="283" y2="80"/>
+                    <line x1="367" y1="40" x2="367" y2="80"/>
+                    <line x1="452" y1="40" x2="452" y2="80"/>
+                    <line x1="536" y1="40" x2="536" y2="80"/>
+                    <line x1="621" y1="40" x2="621" y2="80"/>
+                    <line x1="705" y1="40" x2="705" y2="80"/>
+                </g>
+                <!-- Phase labels -->
+                <g font-family="Inter,sans-serif" font-size="11" fill="#666" text-anchor="middle">
+                    <text x="156" y="100">Temel Araştırma</text>
+                    <text x="325" y="100">Kavram / PoC</text>
+                    <text x="494" y="100">Teknoloji Demo</text>
+                    <text x="641" y="100">Sistem Doğrulama</text>
+                    <text x="747" y="100">Ticari Ürün</text>
+                </g>
+                <!-- Caption -->
+                <text x="410" y="124" font-family="Inter,sans-serif" font-size="10" text-anchor="middle" fill="#999">TRL = Technology Readiness Level | NASA / ESA standardı | 1 = temel araştırma, 9 = kanıtlanmış uçuş ürünü</text>
+            </svg>
+        </div>
+
+        <!-- TRL technology cards row -->
+        <div class="trl-cards" id="trlCards">
+            <div class="trl-card trl-card-red" data-trl="1-2" tabindex="0">
+                <div class="trl-card-range">TRL 1-2</div>
+                <div class="trl-card-title">PIKAN / RL Kontrol</div>
+                <div class="trl-card-sub">Araştırma lab. aşaması</div>
+            </div>
+            <div class="trl-card trl-card-yellow" data-trl="3-4" tabindex="0">
+                <div class="trl-card-range">TRL 3-4</div>
+                <div class="trl-card-title">X-PAM, LPPAM, IPAM</div>
+                <div class="trl-card-sub">Kavram ispatı → prototip</div>
+            </div>
+            <div class="trl-card trl-card-orange" data-trl="5-6" tabindex="0">
+                <div class="trl-card-range">TRL 5-6</div>
+                <div class="trl-card-title">Yumuşak Gripper'lar</div>
+                <div class="trl-card-sub">Lab → ön-endüstri</div>
+            </div>
+            <div class="trl-card trl-card-green" data-trl="7-8" tabindex="0">
+                <div class="trl-card-range">TRL 7-8</div>
+                <div class="trl-card-title">Klinik Ekzosuitler &amp; Shadow El</div>
+                <div class="trl-card-sub">Sistem Doğrulama — TRL 7-8</div>
+            </div>
+            <div class="trl-card trl-card-green-solid" data-trl="9" tabindex="0">
+                <div class="trl-card-range">TRL 9</div>
+                <div class="trl-card-title">Festo DMSP</div>
+                <div class="trl-card-sub">Ticari Ürün — TRL 9</div>
+            </div>
+        </div>
+
+        <!-- Critical insight box — replaces the 📍 pin with a clean lightbulb SVG -->
+        <div class="highlight-box trl-insight" style="margin-top: 16px;">
+            <span class="trl-insight-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Lightbulb glass -->
+                    <path d="M 9 20 h 6 M 10 22.5 h 4 M 12 2 C 8 2, 5 5, 5 9 c 0 2.6, 1.4 4.7, 3 6 c 0.7 0.6, 1 1.2, 1 2 v 1 h 6 v -1 c 0 -0.8, 0.3 -1.4, 1 -2 c 1.6 -1.3, 3 -3.4, 3 -6 c 0 -4, -3 -7, -7 -7 z"
+                          fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Filament -->
+                    <path d="M 10 11 l 2 -3 l 2 3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <p><strong>Kritik Bulgu:</strong> McKibben kasları 1950'lerden bu yana gelişerek TRL 9'a ulaştı. Ancak PIKAN ve X-PAM gibi devrimci tasarımlar hâlâ TRL 2–4 aralığında — bu açık, araştırmacılar ve girişimciler için <strong>büyük bir fırsattır</strong>.</p>
+        </div>
+    </div>
+    <div class="slide-number"></div>
+</div>

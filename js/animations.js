@@ -451,6 +451,20 @@ function initBraidAngleVis(canvas) {
         ctx.lineWidth = 1;
         ctx.strokeRect(graphLeft, graphTop, graphW, graphH);
 
+        // Tint the contractile (left) and extensor (right) regions
+        const refXShade = graphLeft + (54.7 / 90) * graphW;
+        ctx.fillStyle = 'rgba(26, 138, 74, 0.07)';   // green = contractile
+        ctx.fillRect(graphLeft, graphTop, refXShade - graphLeft, graphH);
+        ctx.fillStyle = 'rgba(192, 57, 43, 0.07)';   // red = extensor
+        ctx.fillRect(refXShade, graphTop, graphRight - refXShade, graphH);
+
+        // Tiny region labels
+        ctx.fillStyle = 'rgba(26, 138, 74, 0.7)';
+        ctx.font = 'bold 9px Inter, sans-serif';
+        ctx.fillText('Kontraktil', graphLeft + 6, graphTop + 12);
+        ctx.fillStyle = 'rgba(192, 57, 43, 0.7)';
+        ctx.fillText('Ekstansör', refXShade + 6, graphTop + 12);
+
         // Grid lines
         ctx.setLineDash([2, 4]);
         ctx.strokeStyle = 'rgba(0,40,85,0.06)';
@@ -755,48 +769,67 @@ function initSystemFlow(canvas) {
     draw();
 }
 
-// ===== STATIK MODEL INTERACTIVITY =====
+// ===== STATIK MODEL INTERACTIVITY (Chou & Hannaford McKibben model) =====
 function initStatikModel() {
     const pSlider = document.getElementById('statik-p-slider');
     const dSlider = document.getElementById('statik-d-slider');
+    const thetaSlider = document.getElementById('statik-theta-slider');
+    const epsSlider = document.getElementById('statik-eps-slider');
     const pVal = document.getElementById('statik-p-val');
     const dVal = document.getElementById('statik-d-val');
+    const thetaVal = document.getElementById('statik-theta-val');
+    const epsVal = document.getElementById('statik-eps-val');
     const forceVal = document.getElementById('statik-force-val');
     const forceBar = document.getElementById('statik-force-bar');
+    const aValEl = document.getElementById('statik-a-val');
+    const bValEl = document.getElementById('statik-b-val');
+    const ambValEl = document.getElementById('statik-amb-val');
 
     if (!pSlider || !dSlider || !forceVal) return;
 
+    // Track an upper bound to scale the bar nicely
+    let runningMaxForce = 1;
+
     function updateStatikModel() {
-        // Provide sliders values
-        const P = parseFloat(pSlider.value);
-        const D0 = parseFloat(dSlider.value);
-        
-        // Update display text
-        pVal.textContent = (P / 1000).toFixed(0) + ' kPa';
-        dVal.textContent = D0.toFixed(3) + ' m';
-        
-        // Calculation of Force
-        // F = (pi * D0^2 / 4) * P * (a(1)^2 - b) assuming epsilon=0 for static max force demonstration
-        // For standard McKibben at 0 contraction: a=3/(tan(theta)^2), b=1 / sin(theta)^2
-        // Let's simplify with arbitrary realistic constants to show relationship:
-        const area = Math.PI * Math.pow(D0, 2) / 4;
-        const force = area * P * 1.5; // abstract multiplier representing (a-b) at epsilon=0
-        
-        forceVal.textContent = force.toFixed(0) + " N";
-        
-        // Calculate max theoretical force in this slider range for the bar percentage
-        const maxP = parseFloat(pSlider.max);
-        const maxD0 = parseFloat(dSlider.max);
-        const maxArea = Math.PI * Math.pow(maxD0, 2) / 4;
-        const maxForce = maxArea * maxP * 1.5;
-        
-        const percentage = (force / maxForce) * 100;
-        forceBar.style.width = percentage + "%";
-        
-        // Color shifting based on force
-        if(percentage < 33) {
+        const P = parseFloat(pSlider.value);              // Pa
+        const D0 = parseFloat(dSlider.value);             // m
+        const theta0Deg = thetaSlider ? parseFloat(thetaSlider.value) : 20;
+        const epsilon = epsSlider ? parseFloat(epsSlider.value) : 0;
+        const theta0 = theta0Deg * Math.PI / 180;
+
+        // Display text
+        if (pVal)     pVal.textContent     = (P / 1000).toFixed(0) + ' kPa';
+        if (dVal)     dVal.textContent     = D0.toFixed(3) + ' m';
+        if (thetaVal) thetaVal.textContent = theta0Deg.toFixed(0) + '°';
+        if (epsVal)   epsVal.textContent   = '%' + (epsilon * 100).toFixed(1);
+
+        // Chou & Hannaford McKibben coefficients
+        // a = 3 / tan²(θ₀)  ·  b = 1 / sin²(θ₀)
+        const tanT = Math.tan(theta0);
+        const sinT = Math.sin(theta0);
+        const a = 3 / (tanT * tanT);
+        const b = 1 / (sinT * sinT);
+
+        if (aValEl)   aValEl.textContent   = a.toFixed(2);
+        if (bValEl)   bValEl.textContent   = b.toFixed(2);
+        if (ambValEl) ambValEl.textContent = (a - b).toFixed(2);
+
+        // F = (π D₀² / 4) · P · [ a(1−ε)² − b ]
+        const area = Math.PI * D0 * D0 / 4;
+        let force = area * P * (a * (1 - epsilon) * (1 - epsilon) - b);
+        if (force < 0) force = 0; // muscle can only pull, never push
+
+        forceVal.textContent = force.toFixed(0) + ' N';
+
+        // Adaptive bar scaling — bar fills relative to the largest force seen so far
+        if (force > runningMaxForce) runningMaxForce = force;
+        const percentage = runningMaxForce > 0 ? (force / runningMaxForce) * 100 : 0;
+        forceBar.style.width = Math.min(100, percentage) + '%';
+
+        // Color shifting based on absolute force level
+        if (force < 200) {
             forceVal.style.color = 'var(--accent-blue)';
-        } else if(percentage < 66) {
+        } else if (force < 1500) {
             forceVal.style.color = 'var(--accent-gold)';
         } else {
             forceVal.style.color = 'var(--accent-red)';
@@ -805,8 +838,9 @@ function initStatikModel() {
 
     pSlider.addEventListener('input', updateStatikModel);
     dSlider.addEventListener('input', updateStatikModel);
-    
-    // Initial call
+    if (thetaSlider) thetaSlider.addEventListener('input', updateStatikModel);
+    if (epsSlider)   epsSlider.addEventListener('input', updateStatikModel);
+
     updateStatikModel();
 }
 

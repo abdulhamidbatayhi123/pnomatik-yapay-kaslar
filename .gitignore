@@ -1,0 +1,21 @@
+# Antigravity & Agent workspace scrap
+.claude/
+scratchpad.md
+
+# Windows OS files
+[Dd]esktop.ini
+Thumbs.db
+$RECYCLE.BIN/
+
+# macOS files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Local development and logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+logs/
+*.log

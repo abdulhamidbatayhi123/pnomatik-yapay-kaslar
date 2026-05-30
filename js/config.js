@@ -53,6 +53,12 @@ const PRESENTATION_CONFIG = {
             startSlide: 0
         },
         {
+            id: "yol-haritasi",
+            file: "sections/08b-yol-haritasi.html",
+            navLabel: "Sonuç & Yol Haritası",
+            startSlide: 0
+        },
+        {
             id: "kapanis",
             file: "sections/09-kapanis.html",
             navLabel: "Kapanış",
