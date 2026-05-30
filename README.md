@@ -7,6 +7,10 @@
 [![JS Architecture](https://img.shields.io/badge/Engine-Vanilla%20JS-F7DF1E?style=for-the-badge&logo=javascript)](js/navigation.js)
 [![Demo-PAM](https://img.shields.io/badge/Showcase-Pneumatic%20Artificial%20Muscles-emerald?style=for-the-badge&logo=robot)](sections/01-giris.html)
 
+<p align="center">
+  <img src="assets/images/presentation_preview.png" alt="Interactive Presentation Engine Live Preview" width="100%" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 40, 85, 0.15);">
+</p>
+
 ---
 
 ## 🌟 Visual Showcase & UX Highlights
